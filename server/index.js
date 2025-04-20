@@ -3,10 +3,11 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const morgan = require("morgan");
+const path = require("path");
 
 dotenv.config();
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000; // Make sure the port can be dynamically set by the environment
 
 // Import route handlers
 const popularMoviesRoute = require("./handlers/getPopularMovies");
@@ -18,8 +19,10 @@ const getAllMoviesRoute = require("./handlers/getAllMovies");
 const getMovieByIdRoute = require("./handlers/getMovieById");
 const patchMyFavouritesRoute = require("./handlers/patchMyFavourites");
 const googleSignin = require("./handlers/googleSignin");
+
 const app = express();
 
+// Middleware setup
 app
   .use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -40,7 +43,7 @@ app
   .use(express.json())
   .use(express.urlencoded({ extended: false }));
 
-// REST endpoints below //
+// REST endpoints
 app.get("/api/movies/popular", popularMoviesRoute);
 app.get("/api/movies/top-rated", topRatedMoviesRoute);
 app.get("/api/movies/:movieId/images", imagesRoute);
@@ -50,7 +53,17 @@ app.get("/api/movies/all", getAllMoviesRoute);
 app.get("/api/movies/:movieId", getMovieByIdRoute);
 app.post("/api/google-signin", googleSignin);
 app.patch("/api/favourites", patchMyFavouritesRoute);
-// REST endpoints above //
+
+// Serve the React build files (after building the frontend)
+if (process.env.NODE_ENV === "production") {
+  // Serve static files from React app
+  app.use(express.static(path.join(__dirname, "client/build")));
+
+  // Serve index.html for any other route (for React Router)
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
 
 // Start the server
 app.listen(PORT, () => {
