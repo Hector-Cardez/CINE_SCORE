@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# dotenv environment
+.env
+
+# logs
+logs
+*.log
+
+# OS/macOS files
+.DS_Store
+
+# build output
+dist/
+build/
+
+# yarn
+yarn.lock
+
+# npm
+package-lock.json
