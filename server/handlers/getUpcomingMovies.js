@@ -1,10 +1,10 @@
+// handlers/upcomingMovies.js
 "use strict";
 
 const { getUpcomingMovies } = require("../dbimport");
 
 const upcomingMovies = async (req, res) => {
   try {
-    // Add `await` to resolve the promise returned by `getUpcomingMovies`
     const movies = await getUpcomingMovies();
     res.json(movies);
   } catch (error) {
@@ -13,5 +13,4 @@ const upcomingMovies = async (req, res) => {
   }
 };
 
-// Correct export statement
 module.exports = upcomingMovies;

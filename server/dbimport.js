@@ -1,11 +1,13 @@
-const fetch = require("node-fetch");
+// dbimport.js
 require("dotenv").config();
+const fetch = require("node-fetch");
 
-const BASE_URL = "https://api.themoviedb.org/3/movie";
+const BASE_URL = "https://api.themoviedb.org/3";
+const MOVIE_URL = `${BASE_URL}/movie`;
+const DISCOVER_URL = `${BASE_URL}/discover/movie`;
 
-// Helper function to fetch data from TMDB
-async function fetchFromTMDBW(endpoint) {
-  const url = `${BASE_URL}${endpoint}?language=en-US&page=1`;
+// Helper to fetch from TMDB
+async function fetchFromTMDB(url) {
   const options = {
     method: "GET",
     headers: {
@@ -17,43 +19,44 @@ async function fetchFromTMDBW(endpoint) {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
-      throw new Error(`Error fetching data: ${response.statusText}`);
+      throw new Error(`Fetch error: ${response.statusText}`);
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    console.error("Error fetching data from TMDB:", error);
+    console.error("TMDB fetch error:", error);
     throw error;
   }
 }
 
-// Gets popular movies
+// Popular movies
 async function getPopularMovies() {
-  const endpoint = "/popular";
-  return fetchFromTMDBW(endpoint);
+  const url = `${MOVIE_URL}/popular?language=en-US&page=1`;
+  return fetchFromTMDB(url);
 }
 
-// Gets top-rated movies
+// Top rated movies
 async function getTopRatedMovies() {
-  const endpoint = "/top_rated";
-  return fetchFromTMDBW(endpoint);
+  const url = `${MOVIE_URL}/top_rated?language=en-US&page=1`;
+  return fetchFromTMDB(url);
 }
 
-// Get images for a specific movie
+// Images by ID
 async function getImages(movieId) {
-  const endpoint = `/${movieId}/images`;
-  return fetchFromTMDBW(endpoint);
+  const url = `${MOVIE_URL}/${movieId}/images`;
+  return fetchFromTMDB(url);
 }
 
-// Gets upcoming-movies
+// Accurate upcoming movies using Discover
 async function getUpcomingMovies() {
-  const endpoint = "/upcoming";
-  return fetchFromTMDBW(endpoint);
+  const today = new Date().toISOString().split("T")[0]; // format: YYYY-MM-DD
+  const url = `${DISCOVER_URL}?language=en-US&sort_by=primary_release_date.asc&page=1&release_date.gte=${today}&with_release_type=2|3&region=CA`;
+  return fetchFromTMDB(url);
 }
-// Gets now-playing
+
+// Now playing
 async function getNowPlayingMovies() {
-  const endpoint = "/now_playing";
-  return fetchFromTMDBW(endpoint);
+  const url = `${MOVIE_URL}/now_playing?language=en-US&page=1`;
+  return fetchFromTMDB(url);
 }
 
 module.exports = {
