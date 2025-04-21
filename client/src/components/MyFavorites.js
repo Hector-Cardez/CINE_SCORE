@@ -74,16 +74,19 @@ const MyFavourites = () => {
     // Call the backend to save favourites
     const saveFavourites = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/favourites", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: "e62a17e5-9c48-4a71-b7d8-1e2e7c6fcf3d", // Keeping the same userId as requested
-            favourites: storedFavourites,
-          }),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/favourites`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: "e62a17e5-9c48-4a71-b7d8-1e2e7c6fcf3d", // Keeping the same userId as requested
+              favourites: storedFavourites,
+            }),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();

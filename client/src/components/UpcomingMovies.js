@@ -8,7 +8,7 @@ const UpcomingMovies = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/movies/upcoming")
+    fetch(`${process.env.REACT_APP_API_URL}/api/movies/upcoming`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);

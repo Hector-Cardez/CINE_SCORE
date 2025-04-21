@@ -17,8 +17,9 @@ const MoviePage = () => {
     const fetchMovieById = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/movies/${movieId}`
+          `${process.env.REACT_APP_API_URL}/api/movies/${movieId}`
         );
+
         if (!response.ok) {
           throw new Error("Movie not found");
         }

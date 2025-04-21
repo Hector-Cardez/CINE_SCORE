@@ -9,7 +9,9 @@ const AllMovies = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/movies/all");
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/movies/all`
+        );
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }

@@ -7,7 +7,7 @@ const TopRatedMovies = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/movies/top-rated")
+    fetch(`${process.env.REACT_APP_API_URL}/api/movies/top-rated`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);

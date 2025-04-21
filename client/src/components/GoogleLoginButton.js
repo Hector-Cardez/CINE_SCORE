@@ -7,7 +7,7 @@ const GoogleLoginButton = () => {
 
   const handleSuccess = (response) => {
     const token = response.credential;
-    fetch("http://localhost:8000/api/google-signin", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/google-signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const GoogleLoginButton = () => {
         <GoogleLogin
           onSuccess={handleSuccess}
           onError={handleError}
-          redirectUri="http://localhost:3000"
+          redirectUri="cine-score.up.railway.app"
         />
       ) : (
         <div>
