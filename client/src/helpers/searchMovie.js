@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/api/movies";
+const BASE_URL = "https://cinescore-production.up.railway.app/api/movies";
 
 export const searchMovie = async (query) => {
   const endpoints = ["/popular", "/top-rated", "/upcoming", "/now-playing"];
