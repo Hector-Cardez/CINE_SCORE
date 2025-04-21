@@ -12,11 +12,23 @@ const AllMovies = () => {
         const res = await fetch(
           `${process.env.REACT_APP_API_URL}/api/movies/all`
         );
+
+        // Log the raw response to see the content before parsing
+        const text = await res.text();
+        console.log("Raw response:", text);
+
+        // If the response is not okay (status is not in the 200-299 range), throw an error
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
-        const data = await res.json();
-        setMovies(data.uniqueMovies || []);
+
+        // Try to parse the response as JSON if it looks like JSON
+        try {
+          const data = JSON.parse(text);
+          setMovies(data.uniqueMovies || []);
+        } catch (parseError) {
+          throw new Error("Error parsing JSON response");
+        }
       } catch (error) {
         console.error("Error fetching all movies:", error);
         setError(`Error: ${error.message}`);
