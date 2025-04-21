@@ -126,6 +126,7 @@
 
 .nav-wrapper {
   display: flex;
+  justify-content: space-between;
 }
 
 .navBar a {
@@ -285,5 +286,13 @@ p {
   .fav-wrapper {
     position: relative;
     bottom: 80px;
+  }
+  .nav-wrapper {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+  .nav-wrapper a {
+    margin: 15px;
   }
 }
