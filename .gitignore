@@ -20,3 +20,9 @@ yarn.lock
 
 # npm
 package-lock.json
+
+# Ignore all node_modules folders (even in subdirectories)
+**/node_modules/
+
+# Ignore all .cache folders (e.g., client/node_modules/.cache/)
+**/.cache/
