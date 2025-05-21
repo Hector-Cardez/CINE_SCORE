@@ -50,13 +50,34 @@ async function getImages(movieId) {
 async function getUpcomingMovies() {
   const today = new Date().toISOString().split("T")[0]; // format: YYYY-MM-DD
   const url = `${DISCOVER_URL}?language=en-US&sort_by=primary_release_date.asc&page=1&release_date.gte=${today}&with_release_type=2|3&region=CA`;
-  return fetchFromTMDB(url);
+
+  const data = await fetchFromTMDB(url);
+
+  // Filter out any movie that has a release_date before today (extra check)
+  data.results = data.results.filter((movie) => {
+    return movie.release_date >= today;
+  });
+
+  return data;
 }
 
 // Now playing
 async function getNowPlayingMovies() {
   const url = `${MOVIE_URL}/now_playing?language=en-US&page=1`;
-  return fetchFromTMDB(url);
+  const data = await fetchFromTMDB(url);
+
+  // Define a 30-day window for "now playing"
+  const today = new Date();
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+
+  // Filter only movies released in the last 30 days
+  data.results = data.results.filter((movie) => {
+    const releaseDate = new Date(movie.release_date);
+    return releaseDate >= thirtyDaysAgo && releaseDate <= today;
+  });
+
+  return data;
 }
 
 module.exports = {
