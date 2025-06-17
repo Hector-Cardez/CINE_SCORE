@@ -15,7 +15,6 @@ const AllMovies = () => {
 
         // Log the raw response to see the content before parsing
         const text = await res.text();
-        console.log("Raw response:", text);
 
         // If the response is not okay (status is not in the 200-299 range), throw an error
         if (!res.ok) {

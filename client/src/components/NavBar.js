@@ -76,7 +76,7 @@ const NavBar = () => {
       </div>
       <div className="search-loggin-wrapper">
         <SearchBar />
-        <GoogleLoginButton />
+        {/* <GoogleLoginButton /> */}
       </div>
     </div>
   );
